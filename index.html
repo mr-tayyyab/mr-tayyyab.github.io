@@ -13,7 +13,7 @@
     <style>
         body { background-color: #030712; color: white; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glow { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+        .glow-hover:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
     </style>
 </head>
 <body>
@@ -24,9 +24,9 @@
 
         const App = () => {
             const projects = [
-                { title: 'Riovolution Contracting', desc: 'Custom WordPress & construction platform.', tag: 'Web Design' },
-                { title: 'Car Marketplace', desc: 'Vehicle documentation and sales portal.', tag: 'Full Stack' },
-                { title: 'Public Welfare Foundation', desc: 'Branding and digital presence.', tag: 'Non-Profit' }
+                { title: 'Riovolution Contracting', desc: 'Custom construction platform for a US-based firm.', tag: 'Web Design' },
+                { title: 'Car Marketplace', desc: 'Marketplace for vehicle documentation and sales in Pakistan.', tag: 'Full Stack' },
+                { title: 'Public Welfare Foundation', desc: 'Branding and digital presence for non-profit work.', tag: 'Non-Profit' }
             ];
 
             return (
@@ -34,62 +34,72 @@
                     {/* Hero Section */}
                     <section className="h-screen flex flex-col justify-center items-center text-center px-4">
                         <motion.div 
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            transition={{ duration: 1 }}
                         >
-                            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+                            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4 bg-gradient-to-r from-white via-gray-300 to-gray-600 bg-clip-text text-transparent">
                                 Ahmad
                             </h1>
                             <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
-                                Front-End Developer crafting high-end digital experiences with modern web technologies.
+                                Front-End Developer crafting modern, high-end digital experiences.
                             </p>
                         </motion.div>
                         
                         <motion.div 
-                            className="absolute bottom-10 animate-bounce text-gray-500"
+                            className="mt-12 text-gray-500 text-sm tracking-widest uppercase"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 1 }}
                         >
-                            Scroll down
+                            Explore My Work
                         </motion.div>
                     </section>
 
                     {/* Projects Section */}
-                    <section className="max-w-6xl mx-auto py-20 px-6">
-                        <h2 className="text-3xl font-bold mb-12">Featured Work</h2>
+                    <section className="max-w-6xl mx-auto py-24 px-6">
+                        <h2 className="text-3xl font-bold mb-16 tracking-tight">Featured Projects</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {projects.map((project, idx) => (
                                 <motion.div 
                                     key={idx}
-                                    whileHover={{ scale: 1.02 }}
-                                    className="glass p-8 rounded-3xl glow group transition-all"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    whileHover={{ y: -5 }}
+                                    className="glass p-8 rounded-[2rem] glow-hover group transition-all duration-500"
                                 >
-                                    <span className="text-xs font-mono text-violet-400 uppercase tracking-widest">{project.tag}</span>
-                                    <h3 className="text-2xl font-semibold mt-2 mb-4 group-hover:text-violet-400 transition-colors">{project.title}</h3>
-                                    <p className="text-gray-400 leading-relaxed">{project.desc}</p>
+                                    <div className="text-xs font-mono text-violet-400 uppercase tracking-[0.2em] mb-4">{project.tag}</div>
+                                    <h3 className="text-2xl font-semibold mb-3 group-hover:text-violet-300 transition-colors">{project.title}</h3>
+                                    <p className="text-gray-400 leading-relaxed text-sm">{project.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
                     </section>
 
                     {/* Contact Section */}
-                    <section className="py-40 text-center px-6">
-                        <div className="glass max-w-4xl mx-auto p-12 rounded-[3rem] border-violet-500/20">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6">Let's build something.</h2>
-                            <p className="text-gray-400 mb-8">Currently available for freelance opportunities and full-time roles.</p>
-                            <a href="mailto:your-email@example.com" className="inline-block bg-white text-black px-10 py-4 rounded-full font-semibold hover:bg-violet-400 transition-colors">
-                                Get In Touch
+                    <section className="py-32 text-center px-6">
+                        <motion.div 
+                            whileInView={{ scale: [0.95, 1], opacity: [0, 1] }}
+                            className="glass max-w-4xl mx-auto p-16 rounded-[3rem] border-violet-500/10"
+                        >
+                            <h2 className="text-4xl md:text-6xl font-bold mb-8">Ready to start?</h2>
+                            <p className="text-gray-400 text-lg mb-10">I'm currently taking on new projects and collaborations.</p>
+                            <a href="mailto:contact@ahmad.com" className="inline-block bg-white text-black px-12 py-5 rounded-full font-bold hover:bg-violet-400 hover:text-white transition-all transform hover:scale-105">
+                                Send a Message
                             </a>
-                        </div>
+                        </motion.div>
                     </section>
+
+                    <footer className="py-10 text-center text-gray-600 text-xs tracking-widest uppercase">
+                        &copy; 2026 Ahmad • Built with AI
+                    </footer>
                 </div>
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<App />);
     </script>
 </body>
 </html>

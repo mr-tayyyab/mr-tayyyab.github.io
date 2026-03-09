@@ -1,105 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahmad | Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <style>
-        body { background-color: #030712; color: white; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .glow-hover:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tayyab | Front-End Developer</title>
+  <style>
+    /* --- CSS RESET & BASE STYLES --- */
+    :root {
+      --bg-color: #050505;
+      --text-main: #ffffff;
+      --text-muted: #9ca3af;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      /* Apple-style system fonts */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* --- ANIMATION CLASSES (Vanilla replacement for Framer Motion) --- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      /* Custom bezier curve for that "Apple" snappy-smooth feel */
+      transition: opacity 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98), 
+                  transform 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- HERO SECTION --- */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    /* Subtle ambient background glow */
+    .ambient-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.05);
+      filter: blur(120px);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      margin-bottom: 24px;
+    }
+
+    .hero-subtitle {
+      display: block;
+      margin-top: 8px;
+      /* Gradient text */
+      background: linear-gradient(to right, #6b7280, #e5e7eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: clamp(1.125rem, 2vw, 1.25rem);
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* --- PROJECTS SECTION --- */
+    #projects {
+      padding: 120px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    /* Glassmorphism Card */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 2rem;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+
+    .card:hover {
+      background: var(--card-hover);
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #d1d5db;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* --- CONTACT SECTION --- */
+    #contact {
+      padding: 160px 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contact-wrapper {
+      position: relative;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    /* The Glow Effect Background */
+    .contact-glow {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      background: linear-gradient(to right, #6b7280, #ffffff, #6b7280);
+      border-radius: 2.5rem;
+      filter: blur(20px);
+      opacity: 0.2;
+      transition: opacity 0.5s ease;
+      z-index: 0;
+    }
+
+    .contact-wrapper:hover .contact-glow {
+      opacity: 0.4;
+    }
+
+    /* Glass Contact Container */
+    .contact-card {
+      position: relative;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 2.5rem;
+      padding: 64px 48px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .contact-card h2 {
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      margin-bottom: 16px;
+    }
+
+    .contact-card p {
+      color: var(--text-muted);
+      font-weight: 300;
+      margin-bottom: 40px;
+    }
+
+    .contact-btn {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .contact-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+  </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { motion } = FramerMotion;
+  <section id="hero">
+    <div class="ambient-glow"></div>
+    <div class="hero-content fade-in">
+      <h1 class="hero-title">
+        Ahmad
+        <span class="hero-subtitle">Front-End Developer</span>
+      </h1>
+      <p class="hero-desc">
+        Crafting high-end digital experiences with pixel-perfect precision and modern web technologies.
+      </p>
+    </div>
+  </section>
 
-        const App = () => {
-            const projects = [
-                { title: 'Riovolution Contracting', desc: 'Custom construction platform for a US-based firm.', tag: 'Web Design' },
-                { title: 'Car Marketplace', desc: 'Marketplace for vehicle documentation and sales in Pakistan.', tag: 'Full Stack' },
-                { title: 'Public Welfare Foundation', desc: 'Branding and digital presence for non-profit work.', tag: 'Non-Profit' }
-            ];
+  <section id="projects">
+    <h2 class="section-title fade-in">Featured Work</h2>
+    
+    <div class="projects-grid">
+      <div class="card fade-in" style="transition-delay: 0.1s;">
+        <h3>Riovolution Contracting</h3>
+        <p>A modern, high-conversion landing page built for a premier contracting firm.</p>
+        <div class="tags">
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
 
-            return (
-                <div className="min-h-screen font-sans selection:bg-violet-500/30">
-                    {/* Hero Section */}
-                    <section className="h-screen flex flex-col justify-center items-center text-center px-4">
-                        <motion.div 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1 }}
-                        >
-                            <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-4 bg-gradient-to-r from-white via-gray-300 to-gray-600 bg-clip-text text-transparent">
-                                Ahmad
-                            </h1>
-                            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
-                                Front-End Developer crafting modern, high-end digital experiences.
-                            </p>
-                        </motion.div>
-                        
-                        <motion.div 
-                            className="mt-12 text-gray-500 text-sm tracking-widest uppercase"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1 }}
-                        >
-                            Explore My Work
-                        </motion.div>
-                    </section>
+      <div class="card fade-in" style="transition-delay: 0.3s;">
+        <h3>Car Marketplace</h3>
+        <p>A dynamic, high-performance platform for buying and selling luxury vehicles.</p>
+        <div class="tags">
+          <span class="tag">Vanilla JS</span>
+          <span class="tag">UI/UX</span>
+          <span class="tag">APIs</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                    {/* Projects Section */}
-                    <section className="max-w-6xl mx-auto py-24 px-6">
-                        <h2 className="text-3xl font-bold mb-16 tracking-tight">Featured Projects</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {projects.map((project, idx) => (
-                                <motion.div 
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                    whileHover={{ y: -5 }}
-                                    className="glass p-8 rounded-[2rem] glow-hover group transition-all duration-500"
-                                >
-                                    <div className="text-xs font-mono text-violet-400 uppercase tracking-[0.2em] mb-4">{project.tag}</div>
-                                    <h3 className="text-2xl font-semibold mb-3 group-hover:text-violet-300 transition-colors">{project.title}</h3>
-                                    <p className="text-gray-400 leading-relaxed text-sm">{project.desc}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </section>
+  <section id="contact">
+    <div class="contact-wrapper fade-in">
+      <div class="contact-glow"></div>
+      <div class="contact-card">
+        <h2>Let's build something.</h2>
+        <p>Currently available for freelance opportunities and full-time roles.</p>
+        <button class="contact-btn">Get In Touch</button>
+      </div>
+    </div>
+  </section>
 
-                    {/* Contact Section */}
-                    <section className="py-32 text-center px-6">
-                        <motion.div 
-                            whileInView={{ scale: [0.95, 1], opacity: [0, 1] }}
-                            className="glass max-w-4xl mx-auto p-16 rounded-[3rem] border-violet-500/10"
-                        >
-                            <h2 className="text-4xl md:text-6xl font-bold mb-8">Ready to start?</h2>
-                            <p className="text-gray-400 text-lg mb-10">I'm currently taking on new projects and collaborations.</p>
-                            <a href="mailto:contact@ahmad.com" className="inline-block bg-white text-black px-12 py-5 rounded-full font-bold hover:bg-violet-400 hover:text-white transition-all transform hover:scale-105">
-                                Send a Message
-                            </a>
-                        </motion.div>
-                    </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Setup the Intersection Observer
+      const observerOptions = {
+        root: null, // use the viewport
+        rootMargin: '0px 0px -50px 0px', // trigger slightly before it hits the bottom
+        threshold: 0.1 // trigger when 10% of the element is visible
+      };
 
-                    <footer className="py-10 text-center text-gray-600 text-xs tracking-widest uppercase">
-                        &copy; 2026 Ahmad • Built with AI
-                    </footer>
-                </div>
-            );
-        };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          // If the element is scrolled into view
+          if (entry.isIntersecting) {
+            // Add the 'visible' class to trigger the CSS transition
+            entry.target.classList.add('visible');
+            // Unobserve so it only animates once
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
 
-            const root = ReactDOM.createRoot(document.getElementById('root'));
-            root.render(<App />);
-    </script>
+      // 2. Grab all elements with the 'fade-in' class and observe them
+      const fadeElements = document.querySelectorAll('.fade-in');
+      fadeElements.forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>

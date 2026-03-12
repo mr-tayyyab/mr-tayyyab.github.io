@@ -3,325 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tayyab | Front-End Developer</title>
-  <style>
-    /* --- CSS RESET & BASE STYLES --- */
-    :root {
-      --bg-color: #050505;
-      --text-main: #ffffff;
-      --text-muted: #9ca3af;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-hover: rgba(255, 255, 255, 0.06);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      /* Apple-style system fonts */
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.5;
-      overflow-x: hidden;
-    }
-
-    /* --- ANIMATION CLASSES (Vanilla replacement for Framer Motion) --- */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      /* Custom bezier curve for that "Apple" snappy-smooth feel */
-      transition: opacity 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98), 
-                  transform 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98);
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* --- HERO SECTION --- */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 24px;
-      position: relative;
-    }
-
-    /* Subtle ambient background glow */
-    .ambient-glow {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: rgba(255, 255, 255, 0.05);
-      filter: blur(120px);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 4.5rem);
-      font-weight: 700;
-      letter-spacing: -0.05em;
-      margin-bottom: 24px;
-    }
-
-    .hero-subtitle {
-      display: block;
-      margin-top: 8px;
-      /* Gradient text */
-      background: linear-gradient(to right, #6b7280, #e5e7eb);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-desc {
-      color: var(--text-muted);
-      font-size: clamp(1.125rem, 2vw, 1.25rem);
-      font-weight: 300;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    /* --- PROJECTS SECTION --- */
-    #projects {
-      padding: 120px 24px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .section-title {
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      text-align: center;
-      margin-bottom: 64px;
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 32px;
-    }
-
-    /* Glassmorphism Card */
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 2rem;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      cursor: pointer;
-      transition: background 0.5s ease, transform 0.5s ease;
-    }
-
-    .card:hover {
-      background: var(--card-hover);
-      transform: translateY(-5px);
-    }
-
-    .card h3 {
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      color: var(--text-muted);
-      font-weight: 300;
-      margin-bottom: 32px;
-      flex-grow: 1;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 6px 16px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #d1d5db;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    /* --- CONTACT SECTION --- */
-    #contact {
-      padding: 160px 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .contact-wrapper {
-      position: relative;
-      max-width: 600px;
-      width: 100%;
-    }
-
-    /* The Glow Effect Background */
-    .contact-glow {
-      position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-      background: linear-gradient(to right, #6b7280, #ffffff, #6b7280);
-      border-radius: 2.5rem;
-      filter: blur(20px);
-      opacity: 0.2;
-      transition: opacity 0.5s ease;
-      z-index: 0;
-    }
-
-    .contact-wrapper:hover .contact-glow {
-      opacity: 0.4;
-    }
-
-    /* Glass Contact Container */
-    .contact-card {
-      position: relative;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 2.5rem;
-      padding: 64px 48px;
-      text-align: center;
-      z-index: 1;
-    }
-
-    .contact-card h2 {
-      font-size: clamp(2rem, 4vw, 2.5rem);
-      margin-bottom: 16px;
-    }
-
-    .contact-card p {
-      color: var(--text-muted);
-      font-weight: 300;
-      margin-bottom: 40px;
-    }
-
-    .contact-btn {
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      padding: 16px 32px;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    }
-
-    .contact-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-    }
-  </style>
+  <title>Marlon - Web Designer</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <section id="hero">
-    <div class="ambient-glow"></div>
-    <div class="hero-content fade-in">
-      <h1 class="hero-title">
-        Ahmad
-        <span class="hero-subtitle">Front-End Developer</span>
-      </h1>
-      <p class="hero-desc">
-        Crafting high-end digital experiences with pixel-perfect precision and modern web technologies.
-      </p>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2 class="section-title fade-in">Featured Work</h2>
+  <div class="portfolio-card">
     
-    <div class="projects-grid">
-      <div class="card fade-in" style="transition-delay: 0.1s;">
-        <h3>Riovolution Contracting</h3>
-        <p>A modern, high-conversion landing page built for a premier contracting firm.</p>
-        <div class="tags">
-          <span class="tag">HTML5</span>
-          <span class="tag">CSS3</span>
-          <span class="tag">JavaScript</span>
+    <header>
+      <div class="logo">Marlon</div>
+      <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#">About</a>
+        <a href="#">Skills</a>
+        <a href="#">Works</a>
+        <a href="#">Contact</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      
+      <div class="hero-content">
+        <h1>Hi,<br>I'am <span class="highlight">Marlon</span><br>Web Designer</h1>
+        <button class="contact-btn">Contact</button>
+
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-behance"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
         </div>
       </div>
 
-      <div class="card fade-in" style="transition-delay: 0.3s;">
-        <h3>Car Marketplace</h3>
-        <p>A dynamic, high-performance platform for buying and selling luxury vehicles.</p>
-        <div class="tags">
-          <span class="tag">Vanilla JS</span>
-          <span class="tag">UI/UX</span>
-          <span class="tag">APIs</span>
+      <div class="hero-image">
+        <div class="blob">
+          <img src="your-image.png" alt="Marlon Portrait" class="profile-pic">
         </div>
       </div>
-    </div>
-  </section>
 
-  <section id="contact">
-    <div class="contact-wrapper fade-in">
-      <div class="contact-glow"></div>
-      <div class="contact-card">
-        <h2>Let's build something.</h2>
-        <p>Currently available for freelance opportunities and full-time roles.</p>
-        <button class="contact-btn">Get In Touch</button>
-      </div>
-    </div>
-  </section>
+    </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Setup the Intersection Observer
-      const observerOptions = {
-        root: null, // use the viewport
-        rootMargin: '0px 0px -50px 0px', // trigger slightly before it hits the bottom
-        threshold: 0.1 // trigger when 10% of the element is visible
-      };
+  </div>
 
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          // If the element is scrolled into view
-          if (entry.isIntersecting) {
-            // Add the 'visible' class to trigger the CSS transition
-            entry.target.classList.add('visible');
-            // Unobserve so it only animates once
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      // 2. Grab all elements with the 'fade-in' class and observe them
-      const fadeElements = document.querySelectorAll('.fade-in');
-      fadeElements.forEach(el => observer.observe(el));
-    });
-  </script>
 </body>
 </html>
